@@ -1,9 +1,26 @@
 #include "tcprelaywidget.h"
 
-TCPRelayWidget::TCPRelayWidget(QObject *parent) : QObject(parent), manager(NULL), relayState(-1), pending(false), commandVerified(false), deviceVerified(false), pendingCommand(-1)
+TCPRelayWidget::TCPRelayWidget(QObject *parent, bool autoConnect) : QObject(parent), manager(NULL), relayState(-1), pending(false), commandVerified(false), deviceVerified(false), pendingCommand(-1)
 {
     manager = new QNetworkAccessManager();
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(managerFinished(QNetworkReply*)));
+
+    if( autoConnect ){
+        QNetworkConfiguration cfg;
+        QNetworkConfigurationManager ncm;
+        auto nc = ncm.allConfigurations();
+        for (auto &x : nc)
+        {
+            if (x.bearerType() == QNetworkConfiguration::BearerWLAN)
+            {
+                if (x.name() == "ESPap")
+                    cfg = x;
+            }
+        }
+        auto session = new QNetworkSession(cfg, this);
+        session->open();
+    }
+
     verify();
 }
 

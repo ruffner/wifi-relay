@@ -3,8 +3,10 @@
 
 #include <QObject>
 #include <QNetworkReply>
+#include <QNetworkSession>
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
+#include <QNetworkConfigurationManager>
 
 // representing pending response types
 #define COMMAND_ON  0xAA
@@ -20,7 +22,7 @@ class TCPRelayWidget : public QObject
 {
     Q_OBJECT
 public:
-    explicit TCPRelayWidget(QObject *parent = nullptr);
+    explicit TCPRelayWidget(QObject *parent = nullptr, bool autoConnect = false);
     ~TCPRelayWidget();
 
     void verify();
