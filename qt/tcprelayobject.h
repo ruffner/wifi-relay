@@ -1,5 +1,5 @@
-#ifndef TCPRELAYWIDGET_H
-#define TCPRELAYWIDGET_H
+#ifndef TCPRELAYOBJECT_H
+#define TCPRELAYOBJECT_H
 
 #include <QObject>
 #include <QNetworkReply>
@@ -18,12 +18,12 @@
 #define RESPONSE_OFF "OFF"
 #define RESPONSE_ID  "WIFI RELAY"
 
-class TCPRelayWidget : public QObject
+class TCPRelayObject : public QObject
 {
     Q_OBJECT
 public:
-    explicit TCPRelayWidget(QObject *parent = nullptr, bool autoConnect = false);
-    ~TCPRelayWidget();
+    explicit TCPRelayObject(QObject *parent = nullptr, bool autoConnect = false);
+    ~TCPRelayObject();
 
     void verify();
     bool isVerified() { return deviceVerified; }
@@ -50,4 +50,4 @@ private slots:
     void managerFinished(QNetworkReply *reply);
 };
 
-#endif // TCPRELAYWIDGET_H
+#endif // TCPRELAYOBJECT_H

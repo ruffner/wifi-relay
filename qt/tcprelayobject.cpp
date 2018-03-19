@@ -1,6 +1,6 @@
-#include "tcprelaywidget.h"
+#include "tcprelayobject.h"
 
-TCPRelayWidget::TCPRelayWidget(QObject *parent, bool autoConnect) : QObject(parent), manager(NULL), relayState(-1), pending(false), commandVerified(false), deviceVerified(false), pendingCommand(-1)
+TCPRelayObject::TCPRelayObject(QObject *parent, bool autoConnect) : QObject(parent), manager(NULL), relayState(-1), pending(false), commandVerified(false), deviceVerified(false), pendingCommand(-1)
 {
     manager = new QNetworkAccessManager();
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(managerFinished(QNetworkReply*)));
@@ -24,13 +24,13 @@ TCPRelayWidget::TCPRelayWidget(QObject *parent, bool autoConnect) : QObject(pare
     verify();
 }
 
-TCPRelayWidget::~TCPRelayWidget()
+TCPRelayObject::~TCPRelayObject()
 {
     delete manager;
 }
 
 
-void TCPRelayWidget::verify()
+void TCPRelayObject::verify()
 {
     if( !pending ){
         request.setUrl(QUrl(QString("http://192.168.4.1/id")));
@@ -41,7 +41,7 @@ void TCPRelayWidget::verify()
         deviceVerified = false;
     }
 }
-void TCPRelayWidget::onSetRelayState(bool state)
+void TCPRelayObject::onSetRelayState(bool state)
 {
     if( !pending ){
         request.setUrl(QUrl(QString("http://192.168.4.1/") + QString(state ? "on" : "off") ));
@@ -52,17 +52,17 @@ void TCPRelayWidget::onSetRelayState(bool state)
     }
 }
 
-void TCPRelayWidget::onSetRelayOn()
+void TCPRelayObject::onSetRelayOn()
 {
     onSetRelayState(true);
 }
 
-void TCPRelayWidget::onSetRelayOff()
+void TCPRelayObject::onSetRelayOff()
 {
     onSetRelayState(false);
 }
 
-void TCPRelayWidget::managerFinished(QNetworkReply *reply)
+void TCPRelayObject::managerFinished(QNetworkReply *reply)
 {
     if (reply->error()) {
         emit emitRelayError(reply->errorString());
