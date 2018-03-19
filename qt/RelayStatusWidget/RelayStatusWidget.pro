@@ -26,8 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         relaystatuswidget.cpp \
-        ../../tcprelayobject.cpp
+        ../tcprelayobject.cpp
 
 HEADERS += \
         relaystatuswidget.h \
-        ../../tcprelayobject.h
+        ../tcprelayobject.h
